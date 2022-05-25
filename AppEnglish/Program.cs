@@ -6,6 +6,11 @@ namespace AppEnglish
 	{
 		static void Main(string[] args)
 		{
+			var storage = new WordStorage();
+			storage.AddWord("hello", "привет");
+
+			var dic = storage.GetAllWords();
+
 			var tutor = new Tutor();
 			tutor.AddWord("dog", "пес");
 			tutor.AddWord("cat", "кот");
