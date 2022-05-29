@@ -13,27 +13,42 @@ namespace AppEnglish
 
 		public Dictionary<string, string> GetAllWords()
 		{
-			var dic = new Dictionary<string, string>();
-
-			if (File.Exists(_PATH))
+			try
 			{
-				foreach (var line in File.ReadAllLines(_PATH))
-				{
-					var words = line.Split('|');
-					if (words.Length == 2)
-						dic.Add(words[0], words[1]);
-				}
-			}
+				var dic = new Dictionary<string, string>();
 
-			return dic;
+				if (File.Exists(_PATH))
+				{
+					foreach (var line in File.ReadAllLines(_PATH))
+					{
+						var words = line.Split('|');
+						if (words.Length == 2)
+							dic.Add(words[0], words[1]);
+					}
+				}
+
+				return dic;
+			}
+			catch (Exception)
+			{
+				Console.WriteLine("Не удалось считать файл со словарем!");
+				return new Dictionary<string, string>();
+			}			
 		}
 
 		public void AddWord(string eng, string rus)
 		{
-			using (var writer = new StreamWriter(_PATH, true))
+			try
 			{
-				writer.WriteLine($"{eng} | {rus}");
+				using (var writer = new StreamWriter(_PATH, true))
+				{
+					writer.WriteLine($"{eng} | {rus}");
+				}
 			}
+			catch (Exception)
+			{
+				Console.WriteLine($"Не удалось добавить слово {eng} в словарь!");
+			}			
 		}
 	}
 }
